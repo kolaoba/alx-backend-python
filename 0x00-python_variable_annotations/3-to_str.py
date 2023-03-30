@@ -14,4 +14,4 @@ def to_str(n: float) -> str:
     Returns:
         str: stringified float
     """
-    return str(n) + ","
+    return "{:.2f}".format(n)
