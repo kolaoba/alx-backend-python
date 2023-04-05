@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-'''
+"""
 Execute Multiple Coroutines at the same time
-'''
-
+"""
 import asyncio
 from typing import List
 wait_random = __import__('0-basic_async_syntax').wait_random
@@ -10,6 +9,7 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
     """
+    Returns list of all delays
     Args:
         n (int): number of times to spawn wait_random
         max_delay (int): max_delay between wait_random(s)
