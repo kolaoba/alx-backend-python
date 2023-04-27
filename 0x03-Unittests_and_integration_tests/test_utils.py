@@ -3,15 +3,16 @@
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map, get_json
+from unittest import mock
 
 
 class TestAccessNestedMap(unittest.TestCase):
     """Defines TestAccessNestedMap Class"""
 
     @parameterized.expand([
-        ({'a': 1}, ('a',), 1),
-        ({'a': {'b': 2}}, ('a',), {'b': 2}),
-        ({'a': {'b': 2}}, ('a', 'b'), 2)
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
     def test_access_nested_map(self, nested_map, path, expected):
         """test access_nested_map function"""
@@ -33,10 +34,10 @@ class TestGetJson(unittest.TestCase):
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False})
     ])
-    @unittest.mock.patch('requests.get')
-    def test_get_json(self, test_url, test_payload, mock_get):
-        mock_get.return_value = unittest.mock.Mock()
-        mock_get.return_value.json.return_value = test_payload
-        response = get_json(test_url)
-        mock_get.assert_called_once()
-        assert response == test_payload
+    def test_get_json(self, test_url, test_payload):
+        with mock.patch("requests.get") as get_data:
+            res = mock.Mock()
+            res.json.return_value = test_payload
+            get_data.return_value = res
+            self.assertEqual(get_json(test_url), test_payload)
+
